@@ -1,0 +1,54 @@
+﻿@model IEnumerable<URLAdress>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div>
+    <div>
+        <h2>URL-CUTTER</h2>
+    </div>
+    <br/>
+    <form asp-action="UrlCut">
+        <div class="input-group input-group-lg">
+            <input type="text" name="longUrl" class="form-control" placeholder="Paste the URL to be shorten..." required/>
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="submit">Shorten URL</button>
+            </span>
+        </div>
+    </form>
+</div>
+<br/>
+<br/>
+<div>
+    <table class="table table-bordered table-sm table-striped">
+        <thead>
+            <tr><th>Long Url</th><th>Short Url</th><th>Creation date</th><th>Count of transitions</th><th>Delete</th></tr>
+        </thead>
+        <tbody>
+            @if (Model == null)
+            {
+                <tr><td colspan="7" class="text-center">No Model Data</td></tr>
+            }
+            else
+            {
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>@p.LongUrl</td>
+                        <td>
+                            <a asp-action="UpdateUrl" asp-route-id="@p.Id">@p.ShortUrl</a>
+                        </td>
+                        <td>@p.CreationDate</td>
+                        <td>@p.CountOfTransitions</td>
+                        <td>
+                            <form asp-action="DeleteUrl" method="post" asp-route-id="@p.Id">
+                                <button>Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
